@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -11,6 +14,8 @@ public class GUI {
     private Color darkFrameColor = new Color(33, 33, 33, 255);
     //ERU:colors changed slightly
     private Color label_forgotPassColor = new Color(51, 153, 255);
+    JTextField textField_password;
+    JTextField textField_user;
 
     public GUI() {
         MyFrame frame = new MyFrame();
@@ -29,7 +34,7 @@ public class GUI {
 
         //ERU:changed formatting a little
         // Create the text fields
-        JTextField textField_user = new JTextField(20); // Set to 20 columns
+        textField_user = new JTextField(20); // Set to 20 columns
         textField_user.setBorder(new LineBorder(Color.BLACK, 1, true));
         textField_user.setMargin(new Insets(10,5,10,5));
         textField_user.setOpaque(false);
@@ -37,7 +42,7 @@ public class GUI {
 
         
         //ERU:changed a few things
-        JTextField textField_password = new JTextField(20); // Set to 20 columns
+        textField_password = new JTextField(20); // Set to 20 columns
         textField_password.setBorder(new LineBorder(Color.BLACK, 1, true));
         textField_password.setMargin(new Insets(10,5,10,5));
         textField_password.setOpaque(false);
@@ -69,6 +74,7 @@ public class GUI {
             public void mouseReleased(MouseEvent e) {
                 button_login.setBackground(Color.BLACK);
                 button_login.setForeground(Color.WHITE);
+                authenticateUser();
             }
         });
         
@@ -145,6 +151,39 @@ public class GUI {
         frame.pack();
         frame.setLocationRelativeTo(null); // Center the frame on the screen
         frame.setVisible(true); // Make the frame visible
+    }
+
+    private void authenticateUser() {
+      String username = textField_user.getText();
+      String password = textField_password.getText();
+      DbConnector dbConnector = new DbConnector();
+      Connection connection = null;
+
+      try {
+          connection = dbConnector.connect("bdsm");
+          String query = "SELECT * FROM user WHERE username = ? AND password = ?"; 
+          try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+              JOptionPane.showMessageDialog(null, "Login is successful");
+            } else {
+              JOptionPane.showMessageDialog(null, "Either username or password is invalid");
+            }
+          }
+      } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error detected when trying to connect to the database" + e.getMessage());
+      } finally {
+        if (connection != null) {
+          try {
+              connection.close();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      }
     }
 
     private void setLabelProperties(JLabel label, int fontSize, MyFrame frame) {
