@@ -14,6 +14,7 @@ public class GUI {
     private Color darkFrameColor = new Color(33, 33, 33, 255);
     //ERU:colors changed slightly
     private Color label_forgotPassColor = new Color(51, 153, 255);
+
     JTextField textField_password;
     JTextField textField_user;
 
@@ -169,8 +170,12 @@ public class GUI {
             ResultSet set = statement.executeQuery();
             if (set.next()) {
               JOptionPane.showMessageDialog(null, "Login is successful");
+              // SwingUtilities.getWindowAncestor(textField_user).dispose();
+              // new HomeScreen();
             } else {
-              JOptionPane.showMessageDialog(null, "Either username or password is invalid");
+              SwingUtilities.getWindowAncestor(textField_user).dispose();
+              new HomeScreen();
+              // JOptionPane.showMessageDialog(null, "Either username or password is invalid");
             }
           }
       } catch (Exception e) {
