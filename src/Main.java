@@ -1,13 +1,16 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import javax.swing.SwingUtilities;
 
 public class Main {
     public static void main(String[] args) {
+        SwingUtilities.invokeLater(GUI::new);
+
         DbConnector dbConnector = new DbConnector();
         Connection connection = null;
         try {
@@ -42,6 +45,8 @@ public class Main {
 //            crud.insert_list(2);
 //            crud.insert_webpage(pageName,pageUrl);
 //            crud.insert_block(Integer.parseInt(pageBlockTime),6,2);
+
+
 
         } catch (ClassNotFoundException e) {
             System.err.println("JDBC Driver class not found: " + e.getMessage());
