@@ -17,6 +17,7 @@ public class GUI {
 
     JTextField textField_password;
     JTextField textField_user;
+    JList<String> listServices;
 
     public GUI() {
         MyFrame frame = new MyFrame();
@@ -35,6 +36,11 @@ public class GUI {
 
         //ERU:changed formatting a little
         // Create the text fields
+
+
+        String[] services = {"facebook.com", "youtube.com", "pinterest.com", "twitter.com", "instagram.com", "tumblr.com"};
+        listServices = new JList<>(services);
+
         textField_user = new JTextField(20); // Set to 20 columns
         textField_user.setBorder(new LineBorder(Color.BLACK, 1, true));
         textField_user.setMargin(new Insets(10,5,10,5));
@@ -175,7 +181,7 @@ public class GUI {
             } else {
               SwingUtilities.getWindowAncestor(textField_user).dispose();
               new HomeScreen();
-              // JOptionPane.showMessageDialog(null, "Either username or password is invalid");
+              JOptionPane.showMessageDialog(null, "Either username or password is invalid");
             }
           }
       } catch (Exception e) {

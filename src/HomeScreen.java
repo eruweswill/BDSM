@@ -20,24 +20,29 @@ public class HomeScreen extends JFrame {
         boxContainer.setLayout(new GridLayout(1, 3, 50, 0));
         boxContainer.setOpaque(false);
 
-        RoundedPanel boxLinks = new RoundedPanel();
+        RoundedPanel boxServices = new RoundedPanel();
         RoundedPanel boxTime = new RoundedPanel();
         RoundedPanel boxEmergency = new RoundedPanel();
 
-        JLabel link_label = new JLabel("Link");
-        link_label.setFont(new Font("Serif", Font.BOLD, 16));
+        JLabel service_label = new JLabel("Service name");
+        service_label.setFont(new Font("Serif", Font.BOLD, 16));
+        service_label.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+
         JLabel timer_label = new JLabel("Timer (Numbers Only)");
         timer_label.setFont(new Font("Serif", Font.BOLD, 16));
+        timer_label.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+
         JLabel emergency_label = new JLabel("Emergency access");
         emergency_label.setFont(new Font("Serif", Font.BOLD, 16));
+        emergency_label.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
-        boxLinks.add(link_label);
+        boxServices.add(service_label);
         boxTime.add(timer_label);
         boxEmergency.add(emergency_label);
 
         // Initial fields
-        JTextField textFieldLinks = createTextField(boxLinks, boxTime, boxEmergency);
-        boxLinks.add(textFieldLinks);
+        JTextField textFieldServices = createTextField(boxServices, boxTime, boxEmergency);
+        boxServices.add(textFieldServices);
 
         // Create an editable timer field that only accepts numbers
         JTextField textFieldTime = createNumericTextField();
@@ -48,7 +53,7 @@ public class HomeScreen extends JFrame {
         emergencySwitch.setSize(40,40);
         boxEmergency.add(emergencySwitch);
 
-        boxContainer.add(boxLinks);
+        boxContainer.add(boxServices);
         boxContainer.add(boxTime);
         boxContainer.add(boxEmergency);
 
@@ -64,7 +69,7 @@ public class HomeScreen extends JFrame {
         setVisible(true);
     }
 
-    private JTextField createTextField(RoundedPanel boxLinks, RoundedPanel boxTime, RoundedPanel boxEmergency) {
+    private JTextField createTextField(RoundedPanel boxServices, RoundedPanel boxTime, RoundedPanel boxEmergency) {
         JTextField textField = new JTextField(24);
 
         textField.addActionListener(new ActionListener() {
@@ -73,7 +78,7 @@ public class HomeScreen extends JFrame {
                 // Check for existing empty text fields
                 boolean hasEmptyField = false;
 
-                for (Component component : boxLinks.getComponents()) {
+                for (Component component : boxServices.getComponents()) {
                     if (component instanceof JTextField && component.isVisible() && ((JTextField) component).getText().isEmpty()) {
                         hasEmptyField = true;
                         break;
@@ -82,11 +87,11 @@ public class HomeScreen extends JFrame {
 
                 // Create new fields only if no empty fields exist
                 if (!hasEmptyField) {
-                    // Create a new text field for links
-                    JTextField newTextFieldLinks = createTextField(boxLinks, boxTime, boxEmergency);
-                    boxLinks.add(newTextFieldLinks);
-                    boxLinks.revalidate();
-                    boxLinks.repaint();
+                    // Create a new text field for Services
+                    JTextField newTextFieldServices = createTextField(boxServices, boxTime, boxEmergency);
+                    boxServices.add(newTextFieldServices);
+                    boxServices.revalidate();
+                    boxServices.repaint();
 
                     // Create a new editable text field for the timer
                     JTextField newTextFieldTime = createNumericTextField();
@@ -102,10 +107,10 @@ public class HomeScreen extends JFrame {
                     boxEmergency.repaint();
 
                     // Focus on the newly created link text field
-                    newTextFieldLinks.requestFocusInWindow();
+                    newTextFieldServices.requestFocusInWindow();
                 } else {
                     // If there's an empty field, focus on it
-                    for (Component component : boxLinks.getComponents()) {
+                    for (Component component : boxServices.getComponents()) {
                         if (component instanceof JTextField && ((JTextField) component).getText().isEmpty()) {
                             component.requestFocusInWindow();
                             break;
@@ -166,6 +171,10 @@ public class HomeScreen extends JFrame {
             g2D.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRound, cornerRound);
             g2D.dispose();
         }
+    }
+
+    class PrettyButton extends JButton {
+        
     }
 
     public static void main(String[] args) {
