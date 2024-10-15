@@ -6,6 +6,10 @@ import javax.swing.text.*;
 
 public class HomeScreen extends JFrame {
 
+
+    
+    JList<String> listServices;
+
     public HomeScreen() {
         setTitle("Home");
         setSize(1600, 1200);
@@ -23,6 +27,14 @@ public class HomeScreen extends JFrame {
         RoundedPanel boxServices = new RoundedPanel();
         RoundedPanel boxTime = new RoundedPanel();
         RoundedPanel boxEmergency = new RoundedPanel();
+
+        
+
+        String[] services = {"facebook.com", "youtube.com", "pinterest.com", "twitter.com", "instagram.com", "tumblr.com"};
+        listServices = new JList<>(services);
+
+        JScrollPane scrollServicesPAne = new JScrollPane(listServices);
+        scrollServicesPAne.setPreferredSize(new Dimension(250,100));
 
         JLabel service_label = new JLabel("Service name");
         service_label.setFont(new Font("Serif", Font.BOLD, 16));
@@ -174,7 +186,7 @@ public class HomeScreen extends JFrame {
     }
 
     class PrettyButton extends JButton {
-        
+
     }
 
     public static void main(String[] args) {
